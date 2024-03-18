@@ -3,23 +3,24 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EntityFramework.Models
 {
-    public class Car
+
+    public class SportClub
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Display(Name = "Registration Number")]
         [Required]
-        public string ID { get; set; }
+        public string Id { get; set; }
 
-        [StringLength(50, MinimumLength = 1)]
         [Required]
-        public string Make { get; set; }
+        [StringLength(50, MinimumLength = 3)]
+        public string Title { get; set; }
 
         [DataType(DataType.Currency)]
         [Column(TypeName = "money")]
-        public decimal Price { get; set; }
+        public decimal Fee { get; set; }
 
-        public int DriverID { get; set; }
+        // Navigation property
+        public ICollection<Subscription> Subscriptions { get; set; }
 
-        public Driver Driver { get; set; }
     }
 }

@@ -1,7 +1,5 @@
 using EntityFramework.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-
 namespace EntityFramework
 {
     public class Program
@@ -13,7 +11,8 @@ namespace EntityFramework
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             var connection = builder.Configuration.GetConnectionString("DefaultConnection");
-            builder.Services.AddDbContext<DrivingDbContext>(options => options.UseSqlServer(connection));
+            builder.Services.AddDbContext<SportsDbContext>(options => options.UseSqlServer(connection));
+            builder.Services.AddSession();
             var app = builder.Build();
 
             using (var scope = app.Services.CreateScope())
@@ -21,7 +20,7 @@ namespace EntityFramework
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<DrivingDbContext>();
+                    var context = services.GetRequiredService<SportsDbContext>();
                     DbInitializer.Initialize(context);
                 }
                 catch (Exception ex)
@@ -40,7 +39,7 @@ namespace EntityFramework
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseSession();
 
             app.MapControllerRoute(
                 name: "default",

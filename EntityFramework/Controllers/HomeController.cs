@@ -9,9 +9,9 @@ namespace EntityFramework.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly DrivingDbContext _context;
+        private readonly SportsDbContext _context;
 
-        public HomeController(DrivingDbContext context)
+        public HomeController(SportsDbContext context)
         {
             _context = context;
         }

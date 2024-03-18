@@ -4,46 +4,56 @@ namespace EntityFramework.Data
 {
     public class DbInitializer
     {
-        public static void Initialize(DrivingDbContext context)
+        public static void Initialize(SportsDbContext context)
         {
             context.Database.EnsureCreated();
-
-            if (context.Drivers.Any())
+            if (context.Fans.Any())
             {
                 return;   // DB has been seeded
             }
 
-            var drivers = new Driver[]
+            var fans = new Fan[]
             {
-            new Driver{FirstName="Carson",LastName="Alexander",License=License.G},
-            new Driver{FirstName="Meredith",LastName="Alonso",License=License.G},
-            new Driver{FirstName="Arturo",LastName="Anand",License=License.G1},
-            new Driver{FirstName="Gytis",LastName="Barzdukas",License=License.G},
+            new Fan{FirstName="Carson",LastName="Alexander",BirthDate=DateTime.Parse("1995-01-09")},
+            new Fan{FirstName="Meredith",LastName="Alonso",BirthDate=DateTime.Parse("1992-09-05")},
+            new Fan{FirstName="Arturo",LastName="Anand",BirthDate=DateTime.Parse("1993-10-09")},
+            new Fan{FirstName="Gytis",LastName="Barzdukas",BirthDate=DateTime.Parse("1992-01-09")},
             };
-            foreach (Driver s in drivers)
+            foreach (Fan s in fans)
             {
-                context.Drivers.Add(s);
+                context.Fans.Add(s);
             }
             context.SaveChanges();
 
-            var cars = new Car[]
+            var sportClubs = new SportClub[]
             {
-            new Car{ID="A1",Make="Jeep",Price=300,DriverID=1},
-            new Car{ID="B1",Make="Honda",Price=130,DriverID=1},
-            new Car{ID="J1",Make="Mazda",Price=390,DriverID=2},
-            new Car{ID="C1",Make="Fiat",Price=390,DriverID=2},
-            new Car{ID="D1",Make="Subaru",Price=390,DriverID=2},
-            new Car{ID="E1",Make="Toyota",Price=390,DriverID=2},
-            new Car{ID="F1",Make="Mitsubishi",Price=390,DriverID=2},
-            new Car{ID="G1",Make="BMW",Price=390,DriverID=2},
-            new Car{ID="H1",Make="VW",Price=390,DriverID=2},
-            new Car{ID="I1",Make="Dodge",Price=390,DriverID=2},
+            new SportClub{Id="A1",Title="Alpha",Fee=300},
+            new SportClub{Id="B1",Title="Beta",Fee=130},
+            new SportClub{Id="O1",Title="Omega",Fee=390},
             };
-            foreach (Car c in cars)
+            foreach (SportClub c in sportClubs)
             {
-                context.Cars.Add(c);
+                context.SportClubs.Add(c);
             }
             context.SaveChanges();
+
+            var subscriptions = new Subscription[]
+            {
+            new Subscription{FanId=1,SportClubId="A1"},
+            new Subscription{FanId=1,SportClubId="B1"},
+            new Subscription{FanId=1,SportClubId="O1"},
+            new Subscription{FanId=2,SportClubId="A1"},
+            new Subscription{FanId=2,SportClubId="B1"},
+            new Subscription{FanId=3,SportClubId="A1"},
+            };
+            foreach (var subscription in subscriptions)
+            {
+                context.Subscriptions.Add(subscription);
+            }
+            context.SaveChanges();
+
+
         }
     }
-}
+
+    }
